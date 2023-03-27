@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./app.css";
 import FormInput from "./components/forminput";
+import axios from "axios";
 
 const App = () => {
   const [values, setValues] = useState({
@@ -44,17 +45,32 @@ const App = () => {
     },
   ];
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-  };
+ 
 
   const onChange = (e:any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+ 
+ const handlesubmitbutton =async () => {
+  const data =await axios.post("http://localhost:8080/user/auth/register", {
+    
+  email:values.email,
+  password:values.password,
+  username:"asdas"
+
+}) 
+  console.log('handle',data.data)
+
+  alert(data.data.msg)
+ 
+  
+};
+
+ 
 
   return (
     <div className="app">
-      <form onSubmit={handleSubmit}>
+      <form >
         <h1>Create Account</h1>
         {inputs.map((input) => (
           <FormInput
@@ -64,7 +80,7 @@ const App = () => {
             onChange={onChange}
           />
         ))}
-        <button>Submit</button>
+        <button onSubmit={handlesubmitbutton}>Submit</button>
       </form>
     </div>
   );
